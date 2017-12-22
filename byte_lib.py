@@ -56,12 +56,13 @@ def w_json(data):
 
 def a_limit(port,size):
  data = r_config()
- data['port_limit'][port] = size
+ data['port_limit'][port]['limit'] = size
+ data['port_limit'][port]['used'] = 0
  w_cofig(data)
 
 def c_limit(port):
  data = r_config()
- return data['port_limit'][port]
+ return data['port_limit'][port]['limit']
 
 def d_limit(port):
  data = r_config()
@@ -116,10 +117,15 @@ def start():
   else:
    for i,port in enumerate(p):
     # print i,port,data[port],get_traffic(port)
-    if int(get_traffic(port))>=int(data[port]):
+    if int(get_traffic(port)) + int(data[port]['used']) >= int(data[port]['limit']):
      d_json(port)
      d_limit(port)
      del_rules(port)
+    else:
+     data['port_limit'][port]['used'] = int(get_traffic(port)) + int(data[port]['used'])
+     w_cofig(data)
+     del_rules(port)
+     add_rules(port)
   restart_ss()
   time.sleep(float(r_config()['update_time']))
 
