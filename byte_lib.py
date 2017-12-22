@@ -56,6 +56,7 @@ def w_json(data):
 
 def a_limit(port,size):
  data = r_config()
+ data['port_limit'][port] = {'limit' : 0, 'used' : 0}
  data['port_limit'][port]['limit'] = size
  data['port_limit'][port]['used'] = 0
  w_cofig(data)
