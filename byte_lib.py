@@ -107,8 +107,8 @@ def c_json(port):
 
 def start():
  while 1:
-  data = r_config()
-  data = data['port_limit']
+  data_config = r_config()
+  data = data_config['port_limit']
   p = list(data)
   if len(p)==0:
    with open('bsp_pid','w+') as f:
@@ -123,7 +123,7 @@ def start():
      d_limit(port)
      del_rules(port)
     else:
-     data[port]['used'] = int(get_traffic(port)) + int(data[port]['used'])
+     data_config['port_limit'][port]['used'] = int(get_traffic(port)) + int(data[port]['used'])
      w_cofig(data)
      del_rules(port)
      add_rules(port)
