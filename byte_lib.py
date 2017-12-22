@@ -123,7 +123,7 @@ def start():
      d_limit(port)
      del_rules(port)
     else:
-     data['port_limit'][port]['used'] = int(get_traffic(port)) + int(data[port]['used'])
+     data[port]['used'] = int(get_traffic(port)) + int(data[port]['used'])
      w_cofig(data)
      del_rules(port)
      add_rules(port)
